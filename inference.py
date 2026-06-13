@@ -1,14 +1,3 @@
-import os as _os
-import ctypes as _ctypes
-_cu13_lib = "/home/sevnce/.local/lib/python3.10/site-packages/nvidia/cu13/lib"
-if _os.path.isdir(_cu13_lib) and _cu13_lib not in _os.environ.get("LD_LIBRARY_PATH", ""):
-    for _so in sorted(_os.listdir(_cu13_lib)):
-        if _so.startswith("lib") and ".so" in _so:
-            try:
-                _ctypes.CDLL(_os.path.join(_cu13_lib, _so), mode=_ctypes.RTLD_GLOBAL)
-            except Exception:
-                pass
-
 import cv2
 import numpy as np
 import argparse

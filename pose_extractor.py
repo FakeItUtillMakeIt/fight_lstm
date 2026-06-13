@@ -5,7 +5,7 @@ from torchvision.models.detection import keypointrcnn_resnet50_fpn
 from torchvision.models.detection.keypoint_rcnn import KeypointRCNN_ResNet50_FPN_Weights
 from torchvision.transforms import functional as F
 
-from config import NUM_KEYPOINTS
+NUM_KEYPOINTS = 18
 
 # torchvision COCO-17 keypoints -> our COCO-18 format
 # torchvision: 0:nose, 1:Leye, 2:Reye, 3:Lear, 4:Rear,
