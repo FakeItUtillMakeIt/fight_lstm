@@ -1,0 +1,7 @@
+{
+  "fight1": {
+    "file": "cached_features/fight1.npy",
+    "frames": 100,
+    "dim": 72
+  }
+}

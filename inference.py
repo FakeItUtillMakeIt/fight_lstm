@@ -29,7 +29,7 @@ class BiLSTMClassifier(nn.Module):
     def forward(self, x):
         out, _ = self.lstm(x)
         out = self.dropout(out[:, -1, :])
-        return torch.sigmoid(self.fc(out))
+        return self.fc(out)
 
 
 def normalize_skeleton(skeleton):
@@ -135,12 +135,13 @@ def main():
 
             seq_t = torch.tensor(seq, dtype=torch.float32).unsqueeze(0).to(device)
             with torch.no_grad():
-                fight_prob = model(seq_t).item()
+                fight_prob = torch.sigmoid(model(seq_t)).item()
             scores_history.append(fight_prob)
         else:
             scores_history.append(0.0)
 
         avg_score = np.mean(scores_history) if scores_history else 0.0
+        print(f"{frame_idx:05d} fight={fight_prob:.2f} avg={avg_score:.2f}")
         is_fight = avg_score > args.threshold
 
         color = (0, 0, 255) if is_fight else (0, 255, 0)

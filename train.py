@@ -29,7 +29,7 @@ class BiLSTMClassifier(nn.Module):
     def forward(self, x):
         out, _ = self.lstm(x)
         out = self.dropout(out[:, -1, :])
-        return torch.sigmoid(self.fc(out))
+        return self.fc(out)
 
 
 def _normalize_sequence(seq):
@@ -113,7 +113,7 @@ def train_epoch(model, x, y, device, optimizer, criterion, batch_size=16):
 @torch.no_grad()
 def evaluate(model, x, y, device):
     model.eval()
-    pred = model(x.to(device))
+    pred = torch.sigmoid(model(x.to(device)))
     loss = nn.BCELoss()(pred, y.to(device)).item()
     acc = ((pred > 0.5).float() == y.to(device)).float().mean().item()
     return loss, acc, pred.cpu().numpy().flatten()
@@ -174,7 +174,7 @@ def main():
     y_test = torch.tensor(y_test, dtype=torch.float32).unsqueeze(1)
 
     model = BiLSTMClassifier(dropout=0.4).to(device)
-    criterion = nn.BCEWithLogitsLoss(pos_weight=torch.tensor([pos_weight]))
+    criterion = nn.BCEWithLogitsLoss(pos_weight=torch.tensor([pos_weight]).to(device))
     optimizer = torch.optim.AdamW(model.parameters(), lr=0.001, weight_decay=1e-3)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.epochs)
 

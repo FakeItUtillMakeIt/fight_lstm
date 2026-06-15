@@ -132,3 +132,6 @@ def main():
     with open(os.path.join(args.output, "index.json"), "w") as f:
         json.dump(index, f, indent=2)
     print(f"Done. {len(index)} videos -> {args.output}/")
+
+if __name__ == "__main__":
+    main()
