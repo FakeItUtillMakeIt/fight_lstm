@@ -1,6 +1,6 @@
 {
-  "fight1": {
-    "file": "cached_features/fight1.npy",
+  "fanyue": {
+    "file": "cached_features/fanyue.npy",
     "frames": 100,
     "dim": 72
   }
